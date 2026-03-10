@@ -1,4 +1,4 @@
-let BASE_URL = "http://localhost:8080/api";
+let BASE_URL = "https://courtmanager-production.up.railway.app/api";
 
 // stores all players fetched from the backend
 let players = [];
