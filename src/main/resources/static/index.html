@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Court Manager</title>
+
+        <link rel="icon" href="images/tennisballcursor.png" type="image/png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <!-- title -->
+        <h1>Court Manager</h1>
+
+        <!-- two central nav buttons that take the user to the players or lineups page  -->
+        <div class="nav-buttons">
+            <a href="players.html" class="nav-btn">Players</a>
+            <a href="lineups.html" class="nav-btn">Lineups</a>
+        </div>
+
+        <!-- information button -->
+        <button class="info-btn" id="info-btn">Information</button>
+
+        <!-- "Information" popup -->
+        <div class="popup-overlay" id="popup-overlay">
+            <div class="popup">
+                <button class="popup-close" id="popup-close">✕</button>
+                <h2>Court Manager</h2>
+                <p>Welcome to Court Manager! This application is designed for coaches to help manage high school tennis teams, especially for doubles.</p>
+                <hr>
+                <div class="feature">
+                    <strong>Players</strong>
+                    <span>Coaches are able to create a roster for their team and manage their player's stats.<br><br><br></span>
+                </div>
+                <div class="feature">
+                    <strong>Lineups</strong>
+                    <span>Coaches are also able to automatically generate the best possible doubles pairings based on their player roster.</span>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>

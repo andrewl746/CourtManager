@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Players - Court Manager</title>
+
+        <link rel="icon" href="images/tennisballcursor.png" type="image/png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="players.css">
+    </head>
+
+    <body>
+        <!-- title -->
+        <h1>Players</h1>
+
+        <!-- court area -->
+        <div class="court-area">
+            <!-- toolbar for the "+ Add New Player" and "Undo" buttons -->
+            <div style="display:flex; gap:2vw; margin-bottom:2.5vh;">
+                <button class="add-btn" id="add-btn">+ Add New Player</button>
+                <button class="undo-btn" id="undo-btn" disabled>Undo ↺</button>
+            </div>
+
+            <p class="empty-msg" id="empty-msg">No players yet. <br><br> Click <strong>+ Add New Player</strong> to <br> get started.</p>
+
+            <!-- horizontally scrollable cards -->
+            <div class="cards-row" id="cards-row"></div>
+        </div>
+
+        <!-- bottom bar for the "Back" and "Information" buttons -->
+        <div class="bottom-bar">
+            <button class="bottom-btn" onclick="window.location.href='index.html'">Back</button>
+            <button class="bottom-btn" id="info-btn">Information</button>
+        </div>
+
+        <!-- "+ Add New Player" popup -->
+        <div class="overlay" id="add-overlay">
+            <div class="popup-box">
+                <button class="close-btn" id="add-close">&#10005;</button>
+                <h2>Add New Player</h2>
+
+                <!-- error message from backend if request fails -->
+                <div class="error-msg" id="add-error"></div>
+
+                <!-- name input field -->
+                <div class="form-row">
+                    <label>Name *</label>
+                    <input type="text" id="input-name" placeholder="e.g., Andrew Li" maxlength="50">
+                </div>
+
+                <!-- photo upload field -->
+                <div class="form-row">
+                    <label>Photo</label>
+                    <div class="photo-upload-area">
+                        <input type="file" id="add-photo-input" accept="image/*" style="display:none">
+                        <label for="add-photo-input" id="add-photo-label">Click to select a photo from your computer</label>
+                        <img id="add-photo-preview" alt="Preview">
+                    </div>
+                </div>
+
+                <!-- stats input field (1-10) -->
+                <div class="form-row">
+                    <label>Stats (enter a value from 1 to 10 for each)</label>
+                </div>
+                <div class="stats-grid">
+                    <div class="form-row">
+                        <label>Forehand</label>
+                        <input type="number" id="s-fh"  min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Backhand</label>
+                        <input type="number" id="s-bh"  min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Volley</label>
+                        <input type="number" id="s-vol" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Serve</label>
+                        <input type="number" id="s-srv" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Net</label>
+                        <input type="number" id="s-net" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Baseline</label>
+                        <input type="number" id="s-bl"  min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Consistency</label>
+                        <input type="number" id="s-con" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Speed</label>
+                        <input type="number" id="s-spd" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Endurance</label>
+                        <input type="number" id="s-end" min="1" max="10" value="5">
+                    </div>
+                </div>
+
+                <button class="submit-btn" id="add-submit">Add Player</button>
+            </div>
+        </div>
+
+        <!-- "View More" popup -->
+        <div class="overlay" id="view-overlay">
+            <div class="popup-box">
+                <button class="close-btn" id="view-close">✕</button>
+
+                <h2 id="view-name">Player Name</h2>
+                <div class="play-style" id="view-style"></div>
+
+                <!-- player stat bars -->
+                <div class="stats-list" id="view-stats"></div>
+
+                <!-- action buttons to change name or stats (row 1) -->
+                <div class="view-more-actions" style="margin-bottom:0.8vh;">
+                    <button class="edit-btn" id="change-name-btn">Change Name</button>
+                    <button class="edit-btn" id="change-stats-btn">Change Stats</button>
+                </div>
+                <!-- action buttons to change photo or remove player (row 2) -->
+                <div class="view-more-actions">
+                    <button class="change-photo-btn" id="change-photo-btn">
+                        Change Photo<input type="file" id="change-photo-input" accept="image/*">
+                    </button>
+                    <button class="danger-btn" id="remove-btn">Remove Player</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- "Change Name" popup (found in "View More" on a player card) -->
+        <div class="overlay" id="edit-name-overlay">
+            <div class="popup-box" style="max-width:32vw;">
+                <button class="close-btn" id="edit-name-close">&#10005;</button>
+                <h2>Change Name</h2>
+                <div class="error-msg" id="edit-name-error"></div>
+                <div class="form-row" style="margin-top:1.5vh;">
+                    <label>New Name *</label>
+                    <input type="text" id="edit-name-input" placeholder="Enter new name" maxlength="50">
+                </div>
+                <button class="submit-btn" id="edit-name-submit" style="margin-top:1.5vh;">Save Name</button>
+            </div>
+        </div>
+
+        <!-- "Change Stats" popup (found in "View More" on a player card) -->
+        <div class="overlay" id="edit-stats-overlay">
+            <div class="popup-box">
+                <button class="close-btn" id="edit-stats-close">&#10005;</button>
+                <h2>Change Stats</h2>
+                <div class="error-msg" id="edit-stats-error"></div>
+                <div class="form-row" style="margin-top:1vh;">
+                    <label>Stats (enter a value from 1 to 10 for each)</label>
+                </div>
+                <div class="stats-grid">
+                    <div class="form-row">
+                        <label>Forehand</label>
+                        <input type="number" id="es-fh"  min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Backhand</label>
+                        <input type="number" id="es-bh"  min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Volley</label>
+                        <input type="number" id="es-vol" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Serve</label>
+                        <input type="number" id="es-srv" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Net</label>
+                        <input type="number" id="es-net" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Baseline</label>
+                        <input type="number" id="es-bl"  min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Consistency</label>
+                        <input type="number" id="es-con" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Speed</label>
+                        <input type="number" id="es-spd" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-row">
+                        <label>Endurance</label>
+                        <input type="number" id="es-end" min="1" max="10" value="5">
+                    </div>
+                </div>
+                <button class="submit-btn" id="edit-stats-submit" style="margin-top:1vh;">Save Stats</button>
+            </div>
+        </div>
+
+        <!-- "Information" popup -->
+        <div class="overlay" id="info-overlay">
+            <div class="popup-box">
+                <button class="close-btn" id="info-close">✕</button>
+                <h2>Players</h2>
+                <p style="font-size:2vh; color:black; line-height:1.6; margin-bottom:1.5vh;">
+                    This page shows all the players on the current roster. Each player card displays their name and photo, with a maximum of 12 players allowed.
+                </p>
+                <p style="font-size:2vh; color:black; line-height:1.6; margin-bottom:1.5vh;">
+                    Click <strong>View More</strong> to see their stats, edit their photo, or remove them from the roster.
+                </p>
+                <p style="font-size:2vh; color:black; line-height:1.6; margin-bottom:1.5vh;">
+                    Click <strong>+ Add New Player</strong> to add a new player to the roster. Enter their stats on a scale of one to ten, which the system will use to automatically calculate their play style.
+                </p>
+                <p style="font-size:2vh; color:black; line-height:1.6;">
+                    In the case a player is accidentally added or removed, click <strong>Undo ↺</strong> to undo the action.
+                </p>
+            </div>
+        </div>
+
+        <script src="players.js"></script>
+    </body>
+</html>

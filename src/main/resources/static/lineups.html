@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lineups - Court Manager</title>
+
+        <link rel="icon" href="images/tennisballcursor.png" type="image/png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="lineups.css">
+    </head>
+
+    <body>
+        <!-- title -->
+        <h1>Lineups</h1>
+
+        <!-- court area -->
+        <div class="court-area">
+            <div class="toolbar">
+                <button class="generate-btn" id="generate-btn">Generate Lineups</button>
+
+                <!-- message when there is no lineup displayed -->
+                <span class="hint-msg" id="hint-msg">Click <strong>Generate Lineups</strong> to <br> generate optimal doubles pairs.</span>
+            </div>
+
+            <!-- horizontally scrollable cards -->
+            <div class="cards-row" id="cards-row"></div>
+        </div>
+
+        <!-- bottom bar for the "Back" and "Information" buttons -->
+        <div class="bottom-bar">
+            <button class="bottom-btn" onclick="window.location.href='index.html'">Back</button>
+            <button class="bottom-btn" id="info-btn">Information</button>
+        </div>
+
+        <!-- "View More" popup -->
+        <div class="overlay" id="view-overlay">
+            <div class="popup-box">
+                <button class="close-btn" id="view-close">&#10005;</button>
+
+                <!-- pair names -->
+                <div class="view-pair-names">
+                    <span id="view-name-a"></span>
+                    <span class="view-plus">+</span>
+                    <span id="view-name-b"></span>
+                </div>
+
+                <!-- compatibility score -->
+                <div class="compat-score" id="view-compat"></div>
+
+                <!-- play styles -->
+                <div class="play-style-row">
+                    <span id="view-style-a"></span>
+                    <span id="view-style-b"></span>
+                </div>
+
+                <!-- side by side stat comparison -->
+                <div class="stat-compare-header" style="margin-top:1.5vh;">
+                    <span id="compare-header-a" style="color:#c0392b;"></span>
+                    <span>Stat</span>
+                    <span id="compare-header-b" style="color:#2471a3;"></span>
+                </div>
+                <div id="stat-compare-list"></div>
+            </div>
+        </div>
+
+        <!-- "Information" popup -->
+        <div class="overlay" id="info-overlay">
+            <div class="popup-box">
+                <button class="close-btn" id="info-close">&#10005;</button>
+                <h2>Lineups</h2>
+                <p style="font-size:2vh; color:black; line-height:1.6; margin-bottom:1.5vh;">
+                    Click <strong>Generate Lineups</strong> to generate optimal doubles pairings for the current roster.
+                </p>
+                <p style="font-size:2vh; color:black; line-height:1.6; margin-bottom:1.5vh;">
+                    Pairs are displayed from the highest compatibility score to the lowest, with the highest being 10. To see a side-by-side stat comparison between two players in a pair, click <strong>View More</strong>.
+                </p>
+                <p style="font-size:2vh; color:black; line-height:1.6;">
+                    There must be at least two players and an even number of players to generate a lineup.
+                </p>
+            </div>
+        </div>
+
+        <!-- error popup -->
+        <div class="overlay" id="error-overlay">
+            <div class="popup-box" style="max-width:36vw; text-align:center;">
+                <h2 style="color:red; margin-bottom:1.5vh;">⚠ Cannot Generate Lineups</h2>
+                <p id="error-popup-msg" style="font-size:1.8vh; color:black; line-height:1.6; margin-bottom:2vh;"></p>
+                <button class="bottom-btn" id="error-close">OK</button>
+            </div>
+        </div>
+
+        <script src="lineups.js"></script>
+    </body>
+</html>
